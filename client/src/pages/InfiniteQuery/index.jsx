@@ -24,7 +24,7 @@ const InfiniteQuery = () => {
   const location = useLocation();
 
   const users = useInfiniteQuery(
-    "infiniteUsers",
+    "users",
     ({ pageParam = 1 }) =>
       fetchUser({ page: pageParam, pageLimit: PAGE_LIMIT }),
     {
@@ -43,6 +43,7 @@ const InfiniteQuery = () => {
           return undefined;
         }
       },
+      keepPreviousData: true,
       select: (data) => {
         // return data
         return data?.pages.flatMap((page) => {
