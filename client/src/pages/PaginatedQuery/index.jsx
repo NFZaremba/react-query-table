@@ -41,8 +41,6 @@ const PaginatedQuery = () => {
     }
   );
 
-  console.log(users);
-
   useEffect(() => {
     // reset page to 1 when searching
     reset();

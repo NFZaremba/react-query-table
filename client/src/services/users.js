@@ -2,7 +2,10 @@ import axios from "axios";
 import { createUrl } from "../utils/createUrl";
 
 // axios.defaults.baseURL = process.env.REACT_APP_FRONTEND_URI;\
-axios.defaults.baseURL = "https://react-query-table.herokuapp.com";
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_FRONTEND_URI_PROD
+    : process.env.REACT_APP_FRONTEND_URI_DEV;
 
 export const fetchAllUsers = async () => {
   const { data } = await axios.get("/users");

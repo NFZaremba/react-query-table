@@ -13,7 +13,7 @@ const BasicQuery = () => {
 
   const users = useQuery("users", fetchAllUsers, {
     select: ({ data }) => {
-      return data.slice(0, PAGE_LIMIT);
+      return data?.slice(0, PAGE_LIMIT);
     },
   });
 

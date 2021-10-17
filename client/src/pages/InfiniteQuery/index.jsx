@@ -43,10 +43,8 @@ const InfiniteQuery = () => {
           return undefined;
         }
       },
-      keepPreviousData: true,
       select: (data) => {
-        // return data
-        return data?.pages.flatMap((page) => {
+        return data?.pages?.flatMap((page) => {
           return page.data;
         });
       },
