@@ -15,6 +15,7 @@ const initApp = () => {
   app.get("*", (_req, res) => {
     res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
   });
+  // console.log(path.resolve(__dirname, "./client/build"));
 
   app.use(router);
   app.listen(port, () => {
