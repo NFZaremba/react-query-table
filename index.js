@@ -3,7 +3,7 @@ const app = jsonServer.create();
 const express = require("express");
 const path = require("path");
 const router = jsonServer.router("db.json");
-const middlewares = jsonServer.defaults({ static: "./client/build" });
+const middlewares = jsonServer.defaults();
 const port = process.env.PORT || 3001;
 
 const initApp = () => {
@@ -25,4 +25,4 @@ const initApp = () => {
 
 initApp();
 
-// { static: "../client/build" }
+// { static: "./client/build" }
