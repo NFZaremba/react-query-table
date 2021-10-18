@@ -11,18 +11,14 @@
     "client/node_modules"
   ],
   "scripts": {
-    "start": "concurrently \"npm run json-server\" \"npm run client\"",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "client": "cd client && npm start",
-    "heroku-postbuild": "cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
-    "json-server": "json-server --watch db.json  --port 3004",
-    "start-server": "node index.js"
+    "server": "cd server && npm run json-server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^6.3.0",
-    "express": "^4.17.1",
-    "json-server": "^0.17.0"
+    "concurrently": "^6.3.0"
   }
 }
