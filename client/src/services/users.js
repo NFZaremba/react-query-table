@@ -2,10 +2,14 @@ import axios from "axios";
 import { createUrl } from "../utils/createUrl";
 
 // axios.defaults.baseURL = process.env.REACT_APP_FRONTEND_URI;\
-axios.defaults.baseURL =
-  process.env.NODE_ENV === "production"
+const baseUrl =
+  process.env.NODE_ENV === "development"
     ? process.env.REACT_APP_FRONTEND_URI_PROD
     : process.env.REACT_APP_FRONTEND_URI_DEV;
+
+console.log(baseUrl);
+
+axios.defaults.baseURL = baseUrl;
 
 export const fetchAllUsers = async () => {
   const { data } = await axios.get("/users");
