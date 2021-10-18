@@ -1,13 +1,10 @@
 import axios from "axios";
 import { createUrl } from "../utils/createUrl";
 
-// axios.defaults.baseURL = process.env.REACT_APP_FRONTEND_URI;\
 let baseUrl = process.env.REACT_APP_FRONTEND_URI_PROD;
 
 if (process.env.NODE_ENV === "development")
   baseUrl = process.env.REACT_APP_FRONTEND_URI_DEV;
-
-console.log(baseUrl);
 
 axios.defaults.baseURL = baseUrl;
 
