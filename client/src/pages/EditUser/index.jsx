@@ -36,7 +36,7 @@ const EditUser = () => {
   } = useForm();
 
   // fetch user
-  const { data } = useQuery(["user", { id }], () => fetchUserById({ id }), {
+  const { data } = useQuery(["user", { id }], () => fetchUserById(id), {
     onSuccess: () => onOpen(),
   });
 

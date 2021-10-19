@@ -19,26 +19,38 @@ export const fetchUser = async ({
   pageLimit,
   sort,
   order,
+}: {
+  searchTerm: string;
+  page: number;
+  pageLimit: number;
+  sort: string;
+  order: string;
 }) => {
   const url = createUrl({ searchTerm, page, pageLimit, sort, order });
   const user = await axios.get(url);
   return { data: user.data, headers: user.headers };
 };
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (id: number) => {
   return axios.delete(`/users/${id}`);
 };
 
-export const postUser = async (newUser) => {
+export const postUser = async (newUser: any) => {
   const { data } = await axios.post("/users", newUser);
   return data;
 };
 
-export const fetchUserById = async ({ id }) => {
+export const fetchUserById = async (id: number) => {
   const { data } = await axios.get(`/users/${id}`);
   return data;
 };
 
-export const updateUser = async ({ updatedUser, id }) => {
+export const updateUser = async ({
+  updatedUser,
+  id,
+}: {
+  updatedUser: any;
+  id: number;
+}) => {
   return axios.put(`/users/${id}`, updatedUser);
 };

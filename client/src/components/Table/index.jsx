@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import EditIcon from "../../icons/edit";
-import DeleteIcon from "../../icons/delete";
+import EditIcon from "../../icons/EditIcon";
+import DeleteIcon from "../../icons/DeleteIcon";
 import {
   Table as ChakraTable,
   Thead,

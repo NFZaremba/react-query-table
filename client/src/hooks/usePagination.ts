@@ -1,8 +1,11 @@
 import { useMemo, useState, useCallback } from "react";
 
-const usePagination = (data = [], pageLimit = 15) => {
+const usePagination = <T extends Array<{ [key: string]: unknown }>>(
+  data: T,
+  pageLimit = 15
+) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const maxPage = Math.ceil(data.length / pageLimit) || null;
+  const maxPage = Math.ceil(data.length / pageLimit);
 
   const currentData = useCallback(() => {
     const begin = (currentPage - 1) * pageLimit;
@@ -21,7 +24,7 @@ const usePagination = (data = [], pageLimit = 15) => {
       prev: () => {
         setCurrentPage((currentPage) => Math.max(currentPage - 1, 1));
       },
-      jump: (page) => {
+      jump: (page: number) => {
         const pageNumber = Math.max(1, page);
         setCurrentPage(() => Math.min(pageNumber, maxPage));
       },

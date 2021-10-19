@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import toast, { Toaster } from "react-hot-toast";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import { Navbar } from "./layout";
+import { Navbar } from "./components";
 import Routes from "./routes";
 
 // Create a client
