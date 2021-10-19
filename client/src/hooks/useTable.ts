@@ -1,11 +1,9 @@
 import useSearch from "./useSearch";
 import usePagination from "./usePagination";
 import useSorting from "./useSorting";
+import { IData } from "../shared/types";
 
-const useTable = <T extends Array<{ [key: string]: unknown }>>(
-  data: T,
-  pageLimit: number
-) => {
+const useTable = <T extends Array<IData>>(data: T, pageLimit: number) => {
   const { searchTerm, setSearchTerm, debouncedSearchTerm } = useSearch("");
   const { sortBy, orderBy, onSort, sortedItems } = useSorting(data);
   const { currentPage, currentData, maxPage, reset, next, prev, jump } =

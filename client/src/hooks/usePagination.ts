@@ -1,9 +1,7 @@
 import { useMemo, useState, useCallback } from "react";
+import { IData } from "../shared/types";
 
-const usePagination = <T extends Array<{ [key: string]: unknown }>>(
-  data: T,
-  pageLimit = 15
-) => {
+const usePagination = (data: IData[] = [], pageLimit: number = 15) => {
   const [currentPage, setCurrentPage] = useState(1);
   const maxPage = Math.ceil(data.length / pageLimit);
 

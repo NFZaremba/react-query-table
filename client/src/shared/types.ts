@@ -1,3 +1,3 @@
 export interface IData {
-  [key: string]: string;
+  [k: string]: boolean | number | string;
 }

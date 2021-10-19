@@ -1,4 +1,4 @@
-const ReactQueryIcon = ({ className }) => (
+const ReactQueryIcon = ({ className = "" }: { className: string }) => (
   <svg
     className={`${className}`}
     viewBox="0 0 190 190"

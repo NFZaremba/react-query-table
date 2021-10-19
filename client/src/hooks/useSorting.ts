@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
+import { IData } from "../shared/types";
 
-const useSort = <T extends Array<{ [key: string]: unknown }>>(data: T) => {
+const useSort = (data: IData[] = []) => {
   const [sortedItems, setSortedItems] = useState(data);
   const [sortBy, setSortBy] = useState("");
   const [orderBy, setOrderBy] = useState("asc");
@@ -24,14 +25,14 @@ const useSort = <T extends Array<{ [key: string]: unknown }>>(data: T) => {
   useEffect(() => {
     console.log(sortBy);
     if (!sortBy) return;
-    if (data.length) {
+    if (data?.length) {
       setSortedItems((prevSorted) =>
         prevSorted.sort((a, b) =>
           orderBy === "asc" ? sortData(a, b) : sortData(b, a)
         )
       );
     }
-  }, [sortBy, orderBy, data.length, sortData]);
+  }, [sortBy, orderBy, data, sortData]);
 
   return {
     sortBy,

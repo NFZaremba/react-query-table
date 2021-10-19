@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const ExclamationTriangleIcon = (props) => {
+const ExclamationTriangleIcon = ({ className = "" }: { className: string }) => {
   return (
     <svg
       stroke="currentColor"
@@ -9,7 +9,7 @@ const ExclamationTriangleIcon = (props) => {
       viewBox="0 0 16 16"
       height="1em"
       width="1em"
-      {...props}
+      className={className}
     >
       <path
         fillRule="evenodd"
