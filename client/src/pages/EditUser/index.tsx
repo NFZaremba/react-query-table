@@ -16,10 +16,11 @@ import { useForm, Controller } from "react-hook-form";
 import { Modal, Form } from "../../components";
 import { fetchUserById, updateUser } from "../../services/users";
 import toast from "react-hot-toast";
+import { IRouteState, IUser, IUserRouteParams } from "../../shared/types";
 
 const EditUser = () => {
-  const history = useHistory();
-  const { id } = useParams();
+  const history = useHistory<IRouteState>();
+  const { id } = useParams<IUserRouteParams>();
   const prevPath = history.location.state.background.pathname; // prev path from where the modal was opened
 
   const queryClient = useQueryClient();
@@ -36,13 +37,13 @@ const EditUser = () => {
   } = useForm();
 
   // fetch user
-  const { data } = useQuery(["user", { id }], () => fetchUserById(id), {
+  const user = useQuery(["user", { id }], () => fetchUserById(id), {
     onSuccess: () => onOpen(),
   });
 
   // update user
   const { mutate, isLoading } = useMutation(
-    (updatedUser) => updateUser({ updatedUser, id }),
+    (updatedUser: IUser) => updateUser({ updatedUser, id }),
     {
       onSuccess: () => {
         // invalidate to show updates in ui
@@ -53,27 +54,27 @@ const EditUser = () => {
     }
   );
 
-  const onSubmit = async (data) => {
-    mutate({ ...data, test: null });
+  const onSubmit = (data: IUser) => {
+    mutate(data);
   };
 
   useEffect(() => {
-    if (data) {
+    if (user.data) {
       // update default form values
       // after fetch
-      reset(data);
+      reset(user.data);
     }
-  }, [data, reset]);
+  }, [user.data, reset]);
 
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <Modal.Header close>Edit User</Modal.Header>
       <Modal.Body mb={4}>
         <Form>
-          {data?.id && (
+          {user?.data?.id && (
             <Form.Control>
               <Form.Label htmlFor="id">User Id</Form.Label>
-              <Input id="id" type="text" value={data.id} disabled />
+              <Input id="id" type="text" value={user?.data.id} disabled />
             </Form.Control>
           )}
 

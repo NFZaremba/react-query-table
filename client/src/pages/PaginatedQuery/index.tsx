@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { Table } from "../../components";
 import { Button, Heading } from "@chakra-ui/react";
-import { fetchUser } from "../../services/users";
+import { fetchPaginatedUser } from "../../services/users";
 import toast from "react-hot-toast";
 import useTable from "../../hooks/useTable";
-import { getFirstPage, getLastPage } from "../../utils/table.helpers";
+import { isFirstPage, isLastPage } from "../../components/Table/helpers";
 
 const PAGE_LIMIT = 10;
 
@@ -23,7 +23,7 @@ const PaginatedQuery = () => {
   const users = useQuery(
     ["users", debouncedSearchTerm, currentPage, sortBy, orderBy],
     async () =>
-      fetchUser({
+      fetchPaginatedUser({
         searchTerm: debouncedSearchTerm,
         page: currentPage,
         pageLimit: PAGE_LIMIT,
@@ -32,7 +32,8 @@ const PaginatedQuery = () => {
       }),
     {
       onError: (error) => {
-        toast.errror(`Error occured. ${error}`);
+        if (error instanceof Error)
+          toast.error(`Error occured. ${error.message}`);
       },
       select: ({ data }) => {
         return data;
@@ -65,7 +66,7 @@ const PaginatedQuery = () => {
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />
-        <Table size="md">
+        <Table>
           <Table.Head>
             <Table.Row>
               <Table.Header onClick={() => onSort("id")}>Id</Table.Header>
@@ -114,8 +115,8 @@ const PaginatedQuery = () => {
           prevPage={prev}
           nextPage={next}
           currentPage={currentPage}
-          firstPage={getFirstPage(currentPage)}
-          lastPage={getLastPage(users?.data?.length, PAGE_LIMIT)}
+          isFirstPage={isFirstPage(currentPage)}
+          isLastPage={isLastPage(users?.data?.length, PAGE_LIMIT)}
           isLoading={users?.isLoading || users?.isFetching}
         />
       </div>

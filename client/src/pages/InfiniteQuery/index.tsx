@@ -1,17 +1,16 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 
 import { Table } from "../../components";
-import { fetchUser } from "../../services/users";
+import { fetchInfiniteUser } from "../../services/users";
 import { Heading, Button } from "@chakra-ui/react";
 
 const PAGE_LIMIT = 10;
 
-const parseLinkHeader = (linkHeader) => {
+const parseLinkHeader = (linkHeader: string) => {
   const linkHeadersArray = linkHeader
     ?.split(", ")
-    ?.map((header) => header?.split("; "));
+    ?.map((header: string) => header?.split("; "));
   const linkHeadersMap = linkHeadersArray?.map((header) => {
     const thisHeaderRel = header[1].replace(/"/g, "").replace("rel=", "");
     const thisHeaderUrl = header[0].slice(1, -1);
@@ -26,7 +25,7 @@ const InfiniteQuery = () => {
   const users = useInfiniteQuery(
     "users",
     ({ pageParam = 1 }) =>
-      fetchUser({ page: pageParam, pageLimit: PAGE_LIMIT }),
+      fetchInfiniteUser({ page: pageParam, pageLimit: PAGE_LIMIT }),
     {
       getNextPageParam: (lastPage) => {
         // The following code block is specific to json-server api
@@ -44,9 +43,7 @@ const InfiniteQuery = () => {
         }
       },
       select: (data) => {
-        return data?.pages?.flatMap((page) => {
-          return page.data;
-        });
+        return { ...data, pages: data?.pages?.flatMap((page) => page.data) };
       },
     }
   );
@@ -66,7 +63,9 @@ const InfiniteQuery = () => {
             Create User
           </Button>
         </Link>
-        <Table size="md">
+        <Table
+        // size="md"
+        >
           <Table.Head>
             <Table.Row>
               <Table.Header>Id</Table.Header>
@@ -78,7 +77,7 @@ const InfiniteQuery = () => {
             </Table.Row>
           </Table.Head>
           <Table.Body>
-            {users?.data?.map((user, index) => (
+            {users?.data?.pages?.map((user, index) => (
               <Table.Row key={index}>
                 <Table.Cell>{user.id}</Table.Cell>
                 <Table.Cell>{user.first_name}</Table.Cell>

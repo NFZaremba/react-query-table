@@ -1,6 +1,10 @@
 import * as React from "react";
 
-const ExclamationTriangleIcon = ({ className = "" }: { className: string }) => {
+const ExclamationTriangleIcon = ({
+  className = "",
+}: {
+  className?: string;
+}) => {
   return (
     <svg
       stroke="currentColor"

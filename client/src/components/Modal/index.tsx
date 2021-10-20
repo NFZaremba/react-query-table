@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   Modal as ChakraModal,
   ModalOverlay as ChakraModalOverlay,
@@ -8,18 +6,38 @@ import {
   ModalFooter as ChakraModalFooter,
   ModalBody as ChakraModalBody,
   ModalCloseButton as ChakraModalCloseButton,
+  ModalHeaderProps,
+  ModalProps,
+  ModalBodyProps,
+  ModalFooterProps,
 } from "@chakra-ui/react";
 
-const Modal = ({ children, ...restProps }) => {
+export type IModal = ModalProps;
+
+export type IModalHeader = {
+  close: boolean;
+} & ModalHeaderProps;
+
+export type IModalBody = ModalBodyProps;
+
+export type IModalFooter = ModalFooterProps;
+
+export const Modal = ({
+  children,
+  isCentered,
+  isOpen,
+  onClose,
+  ...restProps
+}: IModal) => {
   return (
-    <ChakraModal {...restProps}>
+    <ChakraModal isCentered isOpen={isOpen} onClose={onClose} {...restProps}>
       <ChakraModalOverlay />
       <ChakraModalContent>{children}</ChakraModalContent>
     </ChakraModal>
   );
 };
 
-const ModalHeader = ({ children, close, ...restProps }) => {
+const Header = ({ children, close, ...restProps }: IModalHeader) => {
   return (
     <>
       <ChakraModalHeader {...restProps}>{children}</ChakraModalHeader>
@@ -28,16 +46,16 @@ const ModalHeader = ({ children, close, ...restProps }) => {
   );
 };
 
-const ModalBody = ({ children, ...restProps }) => {
+const Body = ({ children, ...restProps }: IModalBody) => {
   return <ChakraModalBody {...restProps}>{children}</ChakraModalBody>;
 };
 
-const ModalFooter = ({ children, ...restProps }) => {
+const Footer = ({ children, ...restProps }: IModalFooter) => {
   return <ChakraModalFooter {...restProps}>{children}</ChakraModalFooter>;
 };
 
-Modal.Header = ModalHeader;
-Modal.Body = ModalBody;
-Modal.Footer = ModalFooter;
+Modal.Header = Header;
+Modal.Body = Body;
+Modal.Footer = Footer;
 
 export default Modal;

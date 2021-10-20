@@ -3,8 +3,9 @@ import React from "react";
 import { Table } from "../../components";
 import { Heading } from "@chakra-ui/react";
 import useTable from "../../hooks/useTable";
-import { getFirstPage, getLastPage } from "../../utils/table.helpers";
+
 import data from "../../data";
+import { isFirstPage, isLastPage } from "../../components/Table/helpers";
 
 const PAGE_LIMIT = 15;
 
@@ -12,13 +13,13 @@ const LocalQuery = () => {
   const {
     paginate: { next, prev, currentPage, currentData },
     sort: { onSort },
-  } = useTable(data, PAGE_LIMIT);
+  } = useTable(data, { pageLimit: PAGE_LIMIT });
 
   return (
     <>
       <Heading mb={4}>Local Query Example</Heading>
       <div>
-        <Table size="md">
+        <Table>
           <Table.Head>
             <Table.Row>
               <Table.Header onClick={() => onSort("id")}>Id</Table.Header>
@@ -38,8 +39,8 @@ const LocalQuery = () => {
             </Table.Row>
           </Table.Head>
           <Table.Body>
-            {[...currentData()]?.map((user) => (
-              <Table.Row key={user.id}>
+            {[...currentData()]?.map((user, index) => (
+              <Table.Row key={index}>
                 <Table.Cell>{user.id}</Table.Cell>
                 <Table.Cell>{user.firstName}</Table.Cell>
                 <Table.Cell>{user.lastName}</Table.Cell>
@@ -54,8 +55,8 @@ const LocalQuery = () => {
           prevPage={prev}
           nextPage={next}
           currentPage={currentPage}
-          firstPage={getFirstPage(currentPage)}
-          lastPage={getLastPage(currentData().length, PAGE_LIMIT)}
+          isFirstPage={isFirstPage(currentPage)}
+          isLastPage={isLastPage(currentData().length, PAGE_LIMIT)}
         />
       </div>
     </>

@@ -1,4 +1,3 @@
-import React from "react";
 import { useHistory } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
@@ -15,16 +14,39 @@ import {
 } from "@chakra-ui/react";
 import { Modal, Form } from "../../components";
 import { postUser } from "../../services/users";
+import { IRouteState, IUser } from "../../shared/types";
+
+type CreateUserType = {
+  onSuccess: () => void;
+};
+
+const useCreateUser = ({ onSuccess }: CreateUserType) => {
+  const queryClient = useQueryClient();
+
+  return useMutation((newUser: IUser) => postUser(newUser), {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(["users"]);
+      toast.success(
+        `New User Created - Id: ${data.id} Name: ${data.first_name} ${data.last_name}`
+      );
+      onSuccess();
+    },
+    onError: (error) => {
+      if (error instanceof Error)
+        toast.error(`Something went wrong: ${error.message}`);
+    },
+  });
+};
 
 const CreateUser = () => {
-  const history = useHistory();
+  const history = useHistory<IRouteState>();
   const prevPath = history.location.state.background.pathname; // prev path from where the modal was opened
 
-  const queryClient = useQueryClient();
   const { isOpen, onClose } = useDisclosure({
     isOpen: true,
     onClose: () => history.replace(prevPath),
   });
+
   const {
     register,
     formState: { errors },
@@ -32,22 +54,11 @@ const CreateUser = () => {
     control,
   } = useForm();
 
-  const { mutate, isLoading } = useMutation((newUser) => postUser(newUser), {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(["users"]);
-      toast.success(
-        `New User Created - Id: ${data.id} Name: ${data.first_name} ${data.last_name}`
-      );
-      history.replace(prevPath);
-    },
-    onError: (error) => {
-      toast.error(`Something went wrong: ${error.message}`);
-    },
+  const createUserMutaation = useCreateUser({
+    onSuccess: () => history.replace(prevPath),
   });
 
-  const onSubmit = async (data) => {
-    mutate(data);
-  };
+  const onSubmit = (data: IUser) => createUserMutaation.mutate(data);
 
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
@@ -126,7 +137,7 @@ const CreateUser = () => {
             boxShadow="xl"
             mt={6}
             colorScheme="teal"
-            isLoading={isLoading}
+            isLoading={createUserMutaation.isLoading}
             onClick={handleSubmit(onSubmit)}
           >
             Submit

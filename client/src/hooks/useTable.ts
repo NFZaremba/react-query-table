@@ -3,7 +3,13 @@ import usePagination from "./usePagination";
 import useSorting from "./useSorting";
 import { IData } from "../shared/types";
 
-const useTable = <T extends Array<IData>>(data: T, pageLimit: number) => {
+type Options = {
+  pageLimit?: number;
+};
+
+const useTable = <T extends Array<IData>>(data?: T, options: Options = {}) => {
+  const { pageLimit } = options;
+
   const { searchTerm, setSearchTerm, debouncedSearchTerm } = useSearch("");
   const { sortBy, orderBy, onSort, sortedItems } = useSorting(data);
   const { currentPage, currentData, maxPage, reset, next, prev, jump } =

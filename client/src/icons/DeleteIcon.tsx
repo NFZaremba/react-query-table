@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const DeleteIcon = ({ className = "" }: { className: string }) => {
+const DeleteIcon = ({ className = "" }: { className?: string }) => {
   return (
     <svg
       stroke="currentColor"

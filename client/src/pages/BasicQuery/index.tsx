@@ -1,21 +1,25 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { Table } from "../../components";
 import { Button, Heading } from "@chakra-ui/react";
 import { fetchAllUsers } from "../../services/users";
+import { useState } from "react";
 
-const PAGE_LIMIT = 10;
+const useFetchUsers = (selected: string) => {
+  return useQuery("users", fetchAllUsers, {
+    select: (users) => {
+      if (!Array.isArray(users)) return;
+      if (selected === "All") return users;
+      return users?.slice(0, Number(selected));
+    },
+  });
+};
 
 const BasicQuery = () => {
   const location = useLocation();
-
-  const users = useQuery("users", fetchAllUsers, {
-    select: ({ data }) => {
-      return data?.slice(0, PAGE_LIMIT);
-    },
-  });
+  const [selected, setSelected] = useState<string>("15");
+  const users = useFetchUsers(selected);
 
   return (
     <>
@@ -31,7 +35,9 @@ const BasicQuery = () => {
         </Button>
       </Link>
 
-      <Table size="md">
+      <Table
+      // size="md"
+      >
         <Table.Head>
           <Table.Row>
             <Table.Header>Id</Table.Header>
@@ -68,6 +74,16 @@ const BasicQuery = () => {
           ))}
         </Table.Body>
       </Table>
+      <label>
+        Pick your favorite flavor:
+        <select value={selected} onChange={(e) => setSelected(e.target.value)}>
+          <option value={"15"}>15</option>
+          <option value={"30"}>30</option>
+          <option value={"50"}>50</option>
+          <option value={"100"}>100</option>
+          <option value={"All"}>All</option>
+        </select>
+      </label>
     </>
   );
 };

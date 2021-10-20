@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const EditIcon = ({ className = "" }: { className: string }) => {
+const EditIcon = ({ className = "" }: { className?: string }) => {
   return (
     <svg
       stroke="currentColor"

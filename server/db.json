@@ -74,7 +74,7 @@
       "first_name": "Valentino",
       "last_name": "Tabor",
       "email": "vtabore@youtu.be",
-      "gender": "other",
+      "gender": "Female",
       "test": null
     },
     {
@@ -1630,6 +1630,13 @@
       "email": "nfzaremba@gmail.com",
       "gender": "Female",
       "id": 267
+    },
+    {
+      "first_name": "Nick",
+      "last_name": "Zaremba",
+      "email": "nfzaremba@gmail.com",
+      "gender": "other",
+      "id": 268
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useDebounce from "./useDebounce";
 
-const useSearch = (defaultValue: unknown) => {
+const useSearch = (defaultValue: string = "") => {
   const [searchTerm, setSearchTerm] = useState(defaultValue);
   const debouncedSearchTerm = useDebounce(searchTerm, 250);
 

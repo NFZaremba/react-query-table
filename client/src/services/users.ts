@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosResponseHeaders } from "axios";
+import { IData, IQuery, IUser } from "../shared/types";
 import { createUrl } from "../utils/createUrl";
 
 let baseUrl = process.env.REACT_APP_FRONTEND_URI_PROD;
@@ -8,40 +9,43 @@ if (process.env.NODE_ENV === "development")
 
 axios.defaults.baseURL = baseUrl;
 
-export const fetchAllUsers = async () => {
-  const { data } = await axios.get("/users");
-  return { data };
+export const fetchAllUsers = async (): Promise<IData[]> => {
+  const { data } = await axios.get<IData[]>("/users");
+  return data;
 };
 
-export const fetchUser = async ({
+export const fetchPaginatedUser = async ({
   searchTerm,
   page,
   pageLimit,
   sort,
   order,
-}: {
-  searchTerm: string;
-  page: number;
-  pageLimit: number;
-  sort: string;
-  order: string;
-}) => {
+}: IQuery): Promise<{ data: IData[] }> => {
   const url = createUrl({ searchTerm, page, pageLimit, sort, order });
-  const user = await axios.get(url);
+  const user = await axios.get<IData[]>(url);
+  return { data: user.data };
+};
+
+export const fetchInfiniteUser = async ({
+  page,
+  pageLimit,
+}: IQuery): Promise<{ data: IData[]; headers: AxiosResponseHeaders }> => {
+  const url = createUrl({ page, pageLimit });
+  const user = await axios.get<IData[]>(url);
   return { data: user.data, headers: user.headers };
 };
 
-export const deleteUser = async (id: number) => {
+export const deleteUser = async (id: string): Promise<IUser> => {
   return axios.delete(`/users/${id}`);
 };
 
-export const postUser = async (newUser: any) => {
-  const { data } = await axios.post("/users", newUser);
+export const postUser = async (newUser: IUser): Promise<IUser> => {
+  const { data } = await axios.post<IUser>("/users", newUser);
   return data;
 };
 
-export const fetchUserById = async (id: number) => {
-  const { data } = await axios.get(`/users/${id}`);
+export const fetchUserById = async (id: string): Promise<IUser> => {
+  const { data } = await axios.get<IUser>(`/users/${id}`);
   return data;
 };
 
@@ -49,8 +53,8 @@ export const updateUser = async ({
   updatedUser,
   id,
 }: {
-  updatedUser: any;
-  id: number;
+  updatedUser: IUser;
+  id: string;
 }) => {
   return axios.put(`/users/${id}`, updatedUser);
 };

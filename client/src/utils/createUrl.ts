@@ -1,4 +1,8 @@
-const QUERY_MAP = {
+import { IQuery } from "../shared/types";
+
+type QueryMap = { [k: string]: string };
+
+const QUERY_MAP: QueryMap = {
   page: "_page",
   pageLimit: "_limit",
   searchTerm: "q",
@@ -6,10 +10,11 @@ const QUERY_MAP = {
   order: "_order",
 };
 
-export const createUrl = (query) => {
+export const createUrl = (query: IQuery) => {
   let baseUrl = "/users?";
   const queryString = Object.entries(query)
-    .reduce((acc, [key, value]) => {
+    .reduce<string[]>((acc, next) => {
+      const [key, value] = next;
       if (value) {
         return [...acc, `${QUERY_MAP[key]}=${value}`];
       }

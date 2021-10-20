@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const CloseIcon = ({ className = "" }: { className: string }) => {
+const CloseIcon = ({ className = "" }: { className?: string }) => {
   return (
     <svg
       stroke="currentColor"
