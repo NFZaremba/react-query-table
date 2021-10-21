@@ -1,4 +1,4 @@
-import { IQuery } from "../shared/types";
+import { IQuery } from "../types";
 
 type QueryMap = { [k: string]: string };
 

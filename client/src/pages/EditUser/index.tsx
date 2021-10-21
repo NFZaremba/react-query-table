@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import {
@@ -13,19 +12,58 @@ import {
 } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
 
-import { Modal, Form } from "../../components";
-import { fetchUserById, updateUser } from "../../services/users";
+import { Modal, Form } from "../../shared/components";
 import toast from "react-hot-toast";
-import { IRouteState, IUser, IUserRouteParams } from "../../shared/types";
+import { IUser, QueryOptions } from "../../shared/types";
+import { useAxios } from "../../shared/contexts/AxiosProvider";
+import { useRouter } from "../../shared/hooks/useRouter";
+import { noop } from "../../shared/utils/noop";
+
+const useFetchById = ({
+  id,
+  onSuccess = noop,
+  onError = noop,
+}: QueryOptions) => {
+  const axios = useAxios();
+
+  return useQuery(
+    ["user", { id }],
+    async () => {
+      const { data } = await axios.get<IUser>(`/users/${id}`);
+      return data;
+    },
+    {
+      onSuccess: () => onSuccess(),
+      onError: () => onError(),
+    }
+  );
+};
+
+const useUpdateUser = ({ onSuccess = noop, id }: QueryOptions) => {
+  const axios = useAxios();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (updatedUser: IUser) => {
+      return axios.put(`/users/${id}`, updatedUser);
+    },
+    {
+      onSuccess: () => {
+        // invalidate to show updates in ui
+        queryClient.invalidateQueries(["users"]);
+        toast.success("User Updated!");
+        onSuccess();
+      },
+    }
+  );
+};
 
 const EditUser = () => {
-  const history = useHistory<IRouteState>();
-  const { id } = useParams<IUserRouteParams>();
-  const prevPath = history.location.state.background.pathname; // prev path from where the modal was opened
+  const router = useRouter();
+  const id = router.query.id as string;
 
-  const queryClient = useQueryClient();
   const { isOpen, onClose, onOpen } = useDisclosure({
-    onClose: () => history.replace(prevPath),
+    onClose: () => router.goBack(),
   });
 
   const {
@@ -37,31 +75,24 @@ const EditUser = () => {
   } = useForm();
 
   // fetch user
-  const user = useQuery(["user", { id }], () => fetchUserById(id), {
+  const user = useFetchById({
+    id,
     onSuccess: () => onOpen(),
   });
 
   // update user
-  const { mutate, isLoading } = useMutation(
-    (updatedUser: IUser) => updateUser({ updatedUser, id }),
-    {
-      onSuccess: () => {
-        // invalidate to show updates in ui
-        queryClient.invalidateQueries(["users"]);
-        toast.success("User Updated!");
-        history.replace(prevPath);
-      },
-    }
-  );
+  const updateMutation = useUpdateUser({
+    id,
+    onSuccess: () => router.goBack(),
+  });
 
   const onSubmit = (data: IUser) => {
-    mutate(data);
+    updateMutation.mutate(data);
   };
 
   useEffect(() => {
     if (user.data) {
-      // update default form values
-      // after fetch
+      // update default form values after fetch
       reset(user.data);
     }
   }, [user.data, reset]);
@@ -150,7 +181,7 @@ const EditUser = () => {
             boxShadow="xl"
             mt={6}
             colorScheme="teal"
-            isLoading={isLoading}
+            isLoading={updateMutation.isLoading}
             onClick={handleSubmit(onSubmit)}
           >
             Submit

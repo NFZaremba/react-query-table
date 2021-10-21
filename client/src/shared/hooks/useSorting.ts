@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { IData } from "../shared/types";
+import { IData } from "../types";
 
 const useSort = (data: IData[] = []) => {
   const [sortedItems, setSortedItems] = useState(data);

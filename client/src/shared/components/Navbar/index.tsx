@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Heading } from "@chakra-ui/layout";
 import { Link, NavLink } from "react-router-dom";
-import ReactQueryIcon from "../../icons/ReactQueryIcon";
-import { IComponentBase } from "../../shared/types";
+import ReactQueryIcon from "../../../icons/ReactQueryIcon";
+import { IComponentBase } from "../../types";
 
 // const StyledNavLink = styled(NavLink)`
 //   display: block;

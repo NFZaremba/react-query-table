@@ -1,7 +1,7 @@
 import { Link, LinkProps } from "react-router-dom";
 
-import EditIcon from "../../icons/EditIcon";
-import DeleteIcon from "../../icons/DeleteIcon";
+import EditIcon from "../../../icons/EditIcon";
+import DeleteIcon from "../../../icons/DeleteIcon";
 import {
   Table as ChakraTable,
   Thead,
@@ -15,7 +15,7 @@ import {
   Input,
   InputProps,
 } from "@chakra-ui/react";
-import { IComponentBase } from "../../shared/types";
+import { IComponentBase } from "../../types";
 
 export type ITable = IComponentBase;
 export type ITableHead = IComponentBase;

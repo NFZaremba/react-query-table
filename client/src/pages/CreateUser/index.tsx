@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 import { useForm, Controller } from "react-hook-form";
@@ -12,39 +11,46 @@ import {
   HStack,
   Radio,
 } from "@chakra-ui/react";
-import { Modal, Form } from "../../components";
-import { postUser } from "../../services/users";
-import { IRouteState, IUser } from "../../shared/types";
+import { Modal, Form } from "../../shared/components";
+import { IUser } from "../../shared/types";
+import { useAxios } from "../../shared/contexts/AxiosProvider";
+import { useRouter } from "../../shared/hooks/useRouter";
 
 type CreateUserType = {
   onSuccess: () => void;
 };
 
 const useCreateUser = ({ onSuccess }: CreateUserType) => {
+  const axios = useAxios();
   const queryClient = useQueryClient();
 
-  return useMutation((newUser: IUser) => postUser(newUser), {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(["users"]);
-      toast.success(
-        `New User Created - Id: ${data.id} Name: ${data.first_name} ${data.last_name}`
-      );
-      onSuccess();
+  return useMutation(
+    async (newUser: IUser) => {
+      const { data } = await axios.post<IUser>("/users", newUser);
+      return data;
     },
-    onError: (error) => {
-      if (error instanceof Error)
-        toast.error(`Something went wrong: ${error.message}`);
-    },
-  });
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries(["users"]);
+        toast.success(
+          `New User Created - Id: ${data.id} Name: ${data.first_name} ${data.last_name}`
+        );
+        onSuccess();
+      },
+      onError: (error) => {
+        if (error instanceof Error)
+          toast.error(`Something went wrong: ${error.message}`);
+      },
+    }
+  );
 };
 
 const CreateUser = () => {
-  const history = useHistory<IRouteState>();
-  const prevPath = history.location.state.background.pathname; // prev path from where the modal was opened
+  const router = useRouter();
 
   const { isOpen, onClose } = useDisclosure({
     isOpen: true,
-    onClose: () => history.replace(prevPath),
+    onClose: () => router.goBack(),
   });
 
   const {
@@ -55,7 +61,7 @@ const CreateUser = () => {
   } = useForm();
 
   const createUserMutaation = useCreateUser({
-    onSuccess: () => history.replace(prevPath),
+    onSuccess: () => router.goBack(),
   });
 
   const onSubmit = (data: IUser) => createUserMutaation.mutate(data);

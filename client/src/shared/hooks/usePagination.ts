@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from "react";
-import { IData } from "../shared/types";
+import { IData } from "../types";
 
 const usePagination = (data: IData[] = [], pageLimit: number = 15) => {
   const [currentPage, setCurrentPage] = useState(1);

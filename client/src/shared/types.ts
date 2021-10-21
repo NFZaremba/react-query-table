@@ -16,12 +16,6 @@ export interface IComponentBase {
   children: React.ReactNode;
 }
 
-export interface IRouteState {
-  background: {
-    pathname: string;
-  };
-}
-
 export interface IUser {
   id: number;
   first_name: string;
@@ -30,6 +24,8 @@ export interface IUser {
   gender: string;
 }
 
-export interface IUserRouteParams {
+export type QueryOptions = {
   id: string;
-}
+  onSuccess?: () => void;
+  onError?: () => void;
+};

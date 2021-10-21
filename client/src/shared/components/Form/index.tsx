@@ -5,7 +5,7 @@ import {
   FormControlProps,
   FormLabelProps,
 } from "@chakra-ui/react";
-import { IComponentBase } from "../../shared/types";
+import { IComponentBase } from "../../types";
 
 export type IForm = IComponentBase;
 

@@ -1,11 +1,9 @@
-import React from "react";
-
-import { Table } from "../../components";
+import { Table } from "../../shared/components";
 import { Heading } from "@chakra-ui/react";
-import useTable from "../../hooks/useTable";
+import useTable from "../../shared/hooks/useTable";
 
 import data from "../../data";
-import { isFirstPage, isLastPage } from "../../components/Table/helpers";
+import { isFirstPage, isLastPage } from "../../shared/components/Table/helpers";
 
 const PAGE_LIMIT = 15;
 

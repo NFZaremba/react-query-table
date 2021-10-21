@@ -1,7 +1,7 @@
 import useSearch from "./useSearch";
 import usePagination from "./usePagination";
 import useSorting from "./useSorting";
-import { IData } from "../shared/types";
+import { IData } from "../types";
 
 type Options = {
   pageLimit?: number;

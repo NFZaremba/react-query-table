@@ -2,10 +2,10 @@
   "users": [
     {
       "id": 2,
-      "first_name": "Fonziez",
+      "first_name": "Fonziezz",
       "last_name": "Coggen",
       "email": "fcoggen1@weather.com",
-      "gender": "other",
+      "gender": "Male",
       "test": null
     },
     {
@@ -51,7 +51,7 @@
       "first_name": "Rania",
       "last_name": "Ibeson",
       "email": "ribeson8@smugmug.com",
-      "gender": "Male"
+      "gender": "Female"
     },
     {
       "id": 12,
@@ -112,7 +112,7 @@
       "first_name": "Eryn",
       "last_name": "Feragh",
       "email": "eferaghm@china.com.cn",
-      "gender": "Male",
+      "gender": "other",
       "test": null
     },
     {

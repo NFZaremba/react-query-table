@@ -1,23 +1,34 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import { Table } from "../../components";
+import { Table } from "../../shared/components";
 import { Button, Heading } from "@chakra-ui/react";
-import { fetchAllUsers } from "../../services/users";
 import { useState } from "react";
+import { useAxios } from "../../shared/contexts/AxiosProvider";
+import { IData } from "../../shared/types";
+import { useRouter } from "../../shared/hooks/useRouter";
 
 const useFetchUsers = (selected: string) => {
-  return useQuery("users", fetchAllUsers, {
-    select: (users) => {
-      if (!Array.isArray(users)) return;
-      if (selected === "All") return users;
-      return users?.slice(0, Number(selected));
+  const axios = useAxios();
+
+  return useQuery(
+    "users",
+    async (): Promise<IData[]> => {
+      const { data } = await axios.get<IData[]>("/users");
+      return data;
     },
-  });
+    {
+      select: (users) => {
+        if (!Array.isArray(users)) return;
+        if (selected === "All") return users;
+        return users?.slice(0, Number(selected));
+      },
+    }
+  );
 };
 
 const BasicQuery = () => {
-  const location = useLocation();
+  const { location } = useRouter();
   const [selected, setSelected] = useState<string>("15");
   const users = useFetchUsers(selected);
 
@@ -75,7 +86,7 @@ const BasicQuery = () => {
         </Table.Body>
       </Table>
       <label>
-        Pick your favorite flavor:
+        Select limit:
         <select value={selected} onChange={(e) => setSelected(e.target.value)}>
           <option value={"15"}>15</option>
           <option value={"30"}>30</option>

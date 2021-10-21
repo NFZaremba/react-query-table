@@ -1,41 +1,45 @@
-import { useHistory } from "react-router-dom";
 import { useMutation, useQueryClient } from "react-query";
-import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { ButtonGroup, Button, useDisclosure } from "@chakra-ui/react";
-import { Modal } from "../../components";
-import { deleteUser } from "../../services/users";
-import { IRouteState, IUserRouteParams } from "../../shared/types";
+import { Modal } from "../../shared/components";
+import { useAxios } from "../../shared/contexts/AxiosProvider";
+import { useRouter } from "../../shared/hooks/useRouter";
 
 type DeleteUserType = {
   onSuccess: () => void;
 };
 
 const useDeleteUser = ({ onSuccess }: DeleteUserType) => {
+  const axios = useAxios();
   const queryClient = useQueryClient();
 
-  return useMutation((id: string) => deleteUser(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-      toast.success("Delete Successful!");
-      onSuccess();
+  return useMutation(
+    async (id: string) => {
+      return await axios.delete(`/users/${id}`);
     },
-  });
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries();
+        toast.success("Delete Successful!");
+        onSuccess();
+      },
+    }
+  );
 };
 
 const DeleteUser = () => {
-  const history = useHistory<IRouteState>();
-  const { id } = useParams<IUserRouteParams>();
-  const prevPath = history.location.state.background.pathname; // prev path from where the modal was opened
+  const router = useRouter();
+  console.log(router.query.id);
+  const id = router.query.id as string;
 
   const { isOpen, onClose } = useDisclosure({
     isOpen: true,
-    onClose: () => history.replace(prevPath),
+    onClose: () => router.goBack(),
   });
 
   const deleteMutation = useDeleteUser({
-    onSuccess: () => history.replace(prevPath),
+    onSuccess: () => router.goBack(),
   });
 
   const onDelete = async () => {

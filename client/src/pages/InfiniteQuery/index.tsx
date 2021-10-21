@@ -1,31 +1,25 @@
 import { Link, useLocation } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 
-import { Table } from "../../components";
-import { fetchInfiniteUser } from "../../services/users";
+import { Table } from "../../shared/components";
 import { Heading, Button } from "@chakra-ui/react";
+import { useAxios } from "../../shared/contexts/AxiosProvider";
+import { createUrl } from "../../shared/utils/createUrl";
+import { IData } from "../../shared/types";
+import { parseLinkHeader } from "../../shared/utils/parseLinkHeader";
 
 const PAGE_LIMIT = 10;
 
-const parseLinkHeader = (linkHeader: string) => {
-  const linkHeadersArray = linkHeader
-    ?.split(", ")
-    ?.map((header: string) => header?.split("; "));
-  const linkHeadersMap = linkHeadersArray?.map((header) => {
-    const thisHeaderRel = header[1].replace(/"/g, "").replace("rel=", "");
-    const thisHeaderUrl = header[0].slice(1, -1);
-    return [thisHeaderRel, thisHeaderUrl];
-  });
-  return Object.fromEntries(linkHeadersMap);
-};
+const useFetchInfiniteUsers = () => {
+  const axios = useAxios();
 
-const InfiniteQuery = () => {
-  const location = useLocation();
-
-  const users = useInfiniteQuery(
+  return useInfiniteQuery(
     "users",
-    ({ pageParam = 1 }) =>
-      fetchInfiniteUser({ page: pageParam, pageLimit: PAGE_LIMIT }),
+    async ({ pageParam = 1 }) => {
+      const url = createUrl({ page: pageParam, pageLimit: PAGE_LIMIT });
+      const user = await axios.get<IData[]>(url);
+      return { data: user.data, headers: user.headers };
+    },
     {
       getNextPageParam: (lastPage) => {
         // The following code block is specific to json-server api
@@ -43,10 +37,17 @@ const InfiniteQuery = () => {
         }
       },
       select: (data) => {
+        // flatten data array
         return { ...data, pages: data?.pages?.flatMap((page) => page.data) };
       },
     }
   );
+};
+
+const InfiniteQuery = () => {
+  const location = useLocation();
+
+  const users = useFetchInfiniteUsers();
 
   return (
     <>

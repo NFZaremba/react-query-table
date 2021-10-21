@@ -1,35 +1,35 @@
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import { Table } from "../../components";
+import { Table } from "../../shared/components";
 import { Button, Heading } from "@chakra-ui/react";
-import { fetchPaginatedUser } from "../../services/users";
 import toast from "react-hot-toast";
-import useTable from "../../hooks/useTable";
-import { isFirstPage, isLastPage } from "../../components/Table/helpers";
+import useTable from "../../shared/hooks/useTable";
+import { isFirstPage, isLastPage } from "../../shared/components/Table/helpers";
+import { IData, IQuery } from "../../shared/types";
+import { createUrl } from "../../shared/utils/createUrl";
+import { useAxios } from "../../shared/contexts/AxiosProvider";
+import { useRouter } from "../../shared/hooks/useRouter";
 
 const PAGE_LIMIT = 10;
 
-const PaginatedQuery = () => {
-  const location = useLocation();
+const useFetchPaginatedUsers = ({
+  searchTerm,
+  page,
+  pageLimit,
+  sort,
+  order,
+}: IQuery) => {
+  const axios = useAxios();
 
-  const {
-    search: { searchTerm, setSearchTerm, debouncedSearchTerm },
-    paginate: { next, prev, reset, currentPage },
-    sort: { sortBy, orderBy, onSort },
-  } = useTable();
-
-  const users = useQuery(
-    ["users", debouncedSearchTerm, currentPage, sortBy, orderBy],
-    async () =>
-      fetchPaginatedUser({
-        searchTerm: debouncedSearchTerm,
-        page: currentPage,
-        pageLimit: PAGE_LIMIT,
-        sort: sortBy,
-        order: orderBy,
-      }),
+  return useQuery(
+    ["users", { searchTerm, page, pageLimit, sort, order }],
+    async () => {
+      const url = createUrl({ searchTerm, page, pageLimit, sort, order });
+      const user = await axios.get<IData[]>(url);
+      return { data: user.data };
+    },
     {
       onError: (error) => {
         if (error instanceof Error)
@@ -41,11 +41,29 @@ const PaginatedQuery = () => {
       keepPreviousData: true,
     }
   );
+};
+
+const PaginatedQuery = () => {
+  const { location } = useRouter();
+
+  const {
+    search: { searchTerm, setSearchTerm, debouncedSearchTerm },
+    paginate: { next, prev, reset, currentPage },
+    sort: { sortBy, orderBy, onSort },
+  } = useTable();
+
+  const users = useFetchPaginatedUsers({
+    searchTerm: debouncedSearchTerm,
+    page: currentPage,
+    pageLimit: PAGE_LIMIT,
+    sort: sortBy,
+    order: orderBy,
+  });
 
   useEffect(() => {
     // reset page to 1 when searching
     reset();
-  }, [searchTerm, reset]);
+  }, [debouncedSearchTerm, reset]);
 
   return (
     <>
