@@ -138,6 +138,7 @@ const RadioGroup = ({ name, options }: IRadioGroup) => {
                 />
               </div>
             ))}
+            <Asterisk />
           </div>
         )}
       />
@@ -147,8 +148,6 @@ const RadioGroup = ({ name, options }: IRadioGroup) => {
     </div>
   );
 };
-
-const Select = () => {};
 
 Form.Input = Input;
 Form.RadioGroup = RadioGroup;

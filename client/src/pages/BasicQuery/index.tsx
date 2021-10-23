@@ -82,16 +82,34 @@ const BasicQuery = () => {
           ))}
         </Table.Body>
       </Table>
-      <label>
-        Select limit:
-        <select value={selected} onChange={(e) => setSelected(e.target.value)}>
-          <option value={"15"}>15</option>
-          <option value={"30"}>30</option>
-          <option value={"50"}>50</option>
-          <option value={"100"}>100</option>
-          <option value={"All"}>All</option>
-        </select>
-      </label>
+      <Table.SelectLimit
+        label="Select limit:"
+        id="Select Limit"
+        value={selected}
+        onChange={(e) => setSelected(e.target.value)}
+        options={[
+          {
+            value: "15",
+            label: "15",
+          },
+          {
+            value: "30",
+            label: "30",
+          },
+          {
+            value: "50",
+            label: "50",
+          },
+          {
+            value: "100",
+            label: "100",
+          },
+          {
+            value: "All",
+            label: "All",
+          },
+        ]}
+      />
     </div>
   );
 };

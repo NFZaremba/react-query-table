@@ -44,13 +44,11 @@ const useFetchPaginatedUsers = ({
 
 const PaginatedQuery = () => {
   const { location } = useRouter();
-
   const {
     search: { searchTerm, setSearchTerm, debouncedSearchTerm },
     paginate: { next, prev, reset, currentPage },
     sort: { sortBy, orderBy, onSort },
   } = useTable();
-
   const users = useFetchPaginatedUsers({
     searchTerm: debouncedSearchTerm,
     page: currentPage,
@@ -65,7 +63,7 @@ const PaginatedQuery = () => {
   }, [debouncedSearchTerm, reset]);
 
   return (
-    <>
+    <div className="w-full">
       <h1 className="bold text-4xl mb-8">Paginated Query Example</h1>
       <div>
         <Link
@@ -98,7 +96,10 @@ const PaginatedQuery = () => {
               <Table.Header onClick={() => onSort("gender")}>
                 Gender
               </Table.Header>
-              <Table.Header>Action</Table.Header>
+              <Table.Header>
+                {" "}
+                <span className="sr-only">Action</span>
+              </Table.Header>
             </Table.Row>
           </Table.Head>
           <Table.Body>
@@ -138,7 +139,7 @@ const PaginatedQuery = () => {
           isLoading={users?.isLoading || users?.isFetching}
         />
       </div>
-    </>
+    </div>
   );
 };
 

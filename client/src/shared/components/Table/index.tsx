@@ -28,6 +28,16 @@ export type ITableSearch = {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
+export type ISelectLimit = {
+  label: string;
+  id: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: {
+    value: string;
+    label: string;
+  }[];
+};
 
 const Table = ({ children, className = "", ...restProps }: ITable) => {
   return (
@@ -148,12 +158,31 @@ const PaginateControls = ({
 const Search = ({ value = "", onChange }: ITableSearch) => {
   return (
     <input
-      className="mb-5"
+      className={
+        "block w-full rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 mb-4"
+      }
       type="text"
       placeholder="Search"
       value={value}
       onChange={onChange}
     />
+  );
+};
+
+const SelectLimit = ({ value, onChange, label, id, options }: ISelectLimit) => {
+  return (
+    <div className="flex items-center mt-8">
+      <label htmlFor={id}>{label}</label>
+      <select
+        value={value}
+        onChange={onChange}
+        className="block ml-4 w-1/4 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+      >
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    </div>
   );
 };
 
@@ -166,5 +195,6 @@ Table.ActionEdit = Edit;
 Table.ActionDelete = Delete;
 Table.PaginateControls = PaginateControls;
 Table.Search = Search;
+Table.SelectLimit = SelectLimit;
 
 export default Table;

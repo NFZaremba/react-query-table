@@ -46,11 +46,10 @@ const useFetchInfiniteUsers = () => {
 
 const InfiniteQuery = () => {
   const location = useLocation();
-
   const users = useFetchInfiniteUsers();
 
   return (
-    <>
+    <div className="w-full">
       <h1 className="bold text-4xl mb-8">Infinite Query Example</h1>
       <div>
         {users.isFetchingNextPage && <div>Fetching Next Page...</div>}
@@ -62,9 +61,7 @@ const InfiniteQuery = () => {
         >
           <button className="btn mb-8">Create User</button>
         </Link>
-        <Table
-        // size="md"
-        >
+        <Table>
           <Table.Head>
             <Table.Row>
               <Table.Header className="w-1/12">Id</Table.Header>
@@ -72,7 +69,9 @@ const InfiniteQuery = () => {
               <Table.Header>Last Name</Table.Header>
               <Table.Header className="w-3/12">Email</Table.Header>
               <Table.Header>Gender</Table.Header>
-              <Table.Header>Action</Table.Header>
+              <Table.Header>
+                <span className="sr-only">Action</span>
+              </Table.Header>
             </Table.Row>
           </Table.Head>
           <Table.Body>
@@ -112,7 +111,7 @@ const InfiniteQuery = () => {
       >
         Load More...
       </button>
-    </>
+    </div>
   );
 };
 
