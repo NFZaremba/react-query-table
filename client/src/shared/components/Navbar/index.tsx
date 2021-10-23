@@ -1,4 +1,3 @@
-import { Box, Container, Flex, Heading } from "@chakra-ui/layout";
 import { Link, NavLink } from "react-router-dom";
 import ReactQueryIcon from "../../../icons/ReactQueryIcon";
 import { IComponentBase } from "../../types";
@@ -28,43 +27,27 @@ export interface ILink extends IComponentBase {
 }
 
 const LinkItem = ({ children, to, exact = false }: ILink) => {
-  <NavLink to={to} exact={exact}>
+  <NavLink className="" to={to} exact={exact}>
     {children}
   </NavLink>;
 };
 
 const Navbar = () => {
   return (
-    <Container
-      as="nav"
-      //  x="auto"
-      maxW="container.lg"
-      p="4"
-    >
-      <Flex>
-        <Box
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          as={Link}
-          to="/"
-          w="100%"
-        >
-          <ReactQueryIcon className="logo" />
-          <Heading as={"h2"} color="teal" ml={4}>
-            Custom React Query
-          </Heading>
-        </Box>
-        <Flex>
-          <NavLink to="/" exact>
-            Basic
-          </NavLink>
-          <NavLink to="/paginated">Paginated</NavLink>
-          <NavLink to="/infinite">Infinite</NavLink>
-          <NavLink to="/local">Local</NavLink>
-        </Flex>
-      </Flex>
-    </Container>
+    <div className="flex flex-row justify-between max-w-screen-lg mx-auto mb-10">
+      <Link className="flex justify-center items-center" to="/">
+        <ReactQueryIcon className="logo" />
+        <h2 className="ml-4">Custom React Query</h2>
+      </Link>
+      <div className="flex">
+        <NavLink to="/" exact>
+          Basic
+        </NavLink>
+        <NavLink to="/paginated">Paginated</NavLink>
+        <NavLink to="/infinite">Infinite</NavLink>
+        <NavLink to="/local">Local</NavLink>
+      </div>
+    </div>
   );
 };
 

@@ -1,21 +1,8 @@
 import { Link, LinkProps } from "react-router-dom";
-
 import EditIcon from "../../../icons/EditIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
-import {
-  Table as ChakraTable,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  Button,
-  Flex,
-  Input,
-  InputProps,
-} from "@chakra-ui/react";
 import { IComponentBase } from "../../types";
+import { noop } from "../../utils/noop";
 
 export type ITable = IComponentBase;
 export type ITableHead = IComponentBase;
@@ -40,62 +27,78 @@ export type ITablePaginate = {
 export type ITableSearch = {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-} & InputProps;
+};
 
-const Table = ({ children, ...restProps }: ITable) => {
+const Table = ({ children, className = "", ...restProps }: ITable) => {
   return (
-    <ChakraTable boxShadow="2xl" {...restProps}>
+    <table
+      className={`min-w-full divide-y divide-gray-200 shadow-xl${className}`}
+      {...restProps}
+    >
       {children}
-    </ChakraTable>
+    </table>
   );
 };
 
-const Head = ({ children, ...restProps }: ITableHead) => {
-  return <Thead {...restProps}>{children}</Thead>;
+const Head = ({ children, className = "", ...restProps }: ITableHead) => {
+  return (
+    <thead className={`bg-gray-50 ${className}`} {...restProps}>
+      {children}
+    </thead>
+  );
 };
 
-const Row = ({ children, ...restProps }: ITableRow) => {
-  return <Tr {...restProps}>{children}</Tr>;
+const Row = ({ children, className = "", ...restProps }: ITableRow) => {
+  return (
+    <tr className={`even:bg-gray-50 ${className}`} {...restProps}>
+      {children}
+    </tr>
+  );
 };
 
 const Header = ({
   children,
-  onClick = () => {},
+  className = "",
+  onClick = noop,
   ...restProps
 }: ITableHeader) => {
   return (
-    <Th onClick={onClick} {...restProps}>
+    <th
+      scope="col"
+      className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider  ${className}`}
+      onClick={onClick}
+      {...restProps}
+    >
       {children}
-    </Th>
+    </th>
   );
 };
 
-const Body = ({ children, ...restProps }: ITableBody) => {
-  return <Tbody {...restProps}>{children}</Tbody>;
-};
-
-const Cell = ({ children, ...restProps }: ITableCell) => {
-  return <Td {...restProps}>{children}</Td>;
-};
-
-const Footer = ({ children, ...restProps }: ITableFooter) => {
-  return <Tfoot {...restProps}>{children}</Tfoot>;
-};
-
-const ActionCell = ({ children, ...restProps }: ITableActionCell) => {
+const Body = ({ children, className = "", ...restProps }: ITableBody) => {
   return (
-    <Td display="flex" justifyContent="space-between" {...restProps}>
+    <tbody className={`${className}`} {...restProps}>
       {children}
-    </Td>
+    </tbody>
+  );
+};
+
+const Cell = ({ children, className = "", ...restProps }: ITableCell) => {
+  return (
+    <td
+      className={`px-6 py-4 whitespace-nowrap text-sm text-gray-500 ${className}`}
+      {...restProps}
+    >
+      {children}
+    </td>
   );
 };
 
 const Edit = ({ to, ...restProps }: ITableEdit) => {
   return (
     <Link to={to}>
-      <Button variant="ghost" {...restProps}>
+      <button className="btn-ghost" {...restProps}>
         <EditIcon />
-      </Button>
+      </button>
     </Link>
   );
 };
@@ -104,9 +107,9 @@ const Delete = ({ to, ...restProps }: ITableDelete) => {
   return (
     <>
       <Link to={to}>
-        <Button variant="ghost" {...restProps}>
+        <button className="btn-ghost" {...restProps}>
           <DeleteIcon />
-        </Button>
+        </button>
       </Link>
     </>
   );
@@ -122,34 +125,34 @@ const PaginateControls = ({
   ...restProps
 }: ITablePaginate) => {
   return (
-    <Flex justify="space-between" align="center" mt={6} {...restProps}>
-      <Button
-        colorScheme="teal"
+    <div className="flex justify-between items-center mt-8" {...restProps}>
+      <button
+        className="btn"
         onClick={prevPage}
         disabled={isFirstPage || isLoading}
       >
         Prev
-      </Button>
+      </button>
       <span>Page: {currentPage}</span>
-      <Button
-        colorScheme="teal"
+      <button
+        className="btn"
         onClick={nextPage}
         disabled={isLastPage || isLoading}
       >
         Next
-      </Button>
-    </Flex>
+      </button>
+    </div>
   );
 };
 
-const Search = ({ value = "", onChange, ...restProps }: ITableSearch) => {
+const Search = ({ value = "", onChange }: ITableSearch) => {
   return (
-    <Input
+    <input
+      className="mb-5"
       type="text"
       placeholder="Search"
       value={value}
       onChange={onChange}
-      {...restProps}
     />
   );
 };
@@ -159,10 +162,8 @@ Table.Row = Row;
 Table.Header = Header;
 Table.Body = Body;
 Table.Cell = Cell;
-Table.Actions = ActionCell;
 Table.ActionEdit = Edit;
 Table.ActionDelete = Delete;
-Table.Footer = Footer;
 Table.PaginateControls = PaginateControls;
 Table.Search = Search;
 

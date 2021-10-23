@@ -2,11 +2,11 @@ import React from "react";
 import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import toast, { Toaster } from "react-hot-toast";
-import { ChakraProvider } from "@chakra-ui/react";
 
 import { Navbar } from "./shared/components";
 import Routes from "./routes";
 import AxiosProvider from "./shared/contexts/AxiosProvider";
+import "./App.css";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -29,19 +29,17 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <React.Fragment>
-      <ChakraProvider>
-        <header>
-          <Navbar />
-        </header>
-        <main>
-          <AxiosProvider>
-            <QueryClientProvider client={queryClient}>
-              <Routes />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-          </AxiosProvider>
-        </main>
-      </ChakraProvider>
+      <header>
+        <Navbar />
+      </header>
+      <main>
+        <AxiosProvider>
+          <QueryClientProvider client={queryClient}>
+            <Routes />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </AxiosProvider>
+      </main>
       {/* Toast  */}
       <Toaster
         position="top-center"

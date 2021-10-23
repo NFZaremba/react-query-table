@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 
-import { ButtonGroup, Button, useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import { Modal } from "../../shared/components";
 import { useAxios } from "../../shared/contexts/AxiosProvider";
 import { useRouter } from "../../shared/hooks/useRouter";
@@ -47,25 +47,21 @@ const DeleteUser = () => {
   };
 
   return (
-    <Modal isCentered isOpen={isOpen} onClose={onClose}>
-      <Modal.Header close>Delete User: {id}</Modal.Header>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal.Header>
+        Delete User: <span className="text-red-500 font-semibold">{id}</span>
+      </Modal.Header>
       <Modal.Body>
         Are you sure you want to continue with your action?
       </Modal.Body>
-      <Modal.Footer>
-        <ButtonGroup size="sm">
-          <Button
-            colorScheme="red"
-            onClick={onDelete}
-            isLoading={deleteMutation.isLoading}
-          >
-            Delete
-          </Button>
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-        </ButtonGroup>
-      </Modal.Footer>
+      <Modal.Footer
+        action={{
+          type: "delete",
+          text: "Yes, delete.",
+          onClick: onDelete,
+          isLoading: deleteMutation.isLoading,
+        }}
+      />
     </Modal>
   );
 };

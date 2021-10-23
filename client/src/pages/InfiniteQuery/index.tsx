@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 
 import { Table } from "../../shared/components";
-import { Heading, Button } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { useAxios } from "../../shared/contexts/AxiosProvider";
 import { createUrl } from "../../shared/utils/createUrl";
 import { IData } from "../../shared/types";
@@ -51,7 +51,7 @@ const InfiniteQuery = () => {
 
   return (
     <>
-      <Heading mb={4}>Infinite Query Example</Heading>
+      <h1 className="bold text-4xl mb-8">Infinite Query Example</h1>
       <div>
         {users.isFetchingNextPage && <div>Fetching Next Page...</div>}
         <Link
@@ -60,19 +60,17 @@ const InfiniteQuery = () => {
             state: { background: { ...location, path: "create-user" } },
           }}
         >
-          <Button colorScheme="teal" mb={4}>
-            Create User
-          </Button>
+          <button className="btn mb-8">Create User</button>
         </Link>
         <Table
         // size="md"
         >
           <Table.Head>
             <Table.Row>
-              <Table.Header>Id</Table.Header>
+              <Table.Header className="w-1/12">Id</Table.Header>
               <Table.Header>First Name</Table.Header>
               <Table.Header>Last Name</Table.Header>
-              <Table.Header>Email</Table.Header>
+              <Table.Header className="w-3/12">Email</Table.Header>
               <Table.Header>Gender</Table.Header>
               <Table.Header>Action</Table.Header>
             </Table.Row>
@@ -85,7 +83,7 @@ const InfiniteQuery = () => {
                 <Table.Cell>{user.last_name}</Table.Cell>
                 <Table.Cell>{user.email}</Table.Cell>
                 <Table.Cell>{user.gender}</Table.Cell>
-                <Table.Actions>
+                <Table.Cell>
                   <Table.ActionEdit
                     to={{
                       pathname: `/user/edit/${user.id}`,
@@ -100,21 +98,20 @@ const InfiniteQuery = () => {
                       },
                     }}
                   />
-                </Table.Actions>
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table>
       </div>
 
-      <Button
-        mt={6}
-        colorScheme="teal"
+      <button
+        className="btn mt-8"
         onClick={() => users.fetchNextPage()}
         disabled={!users.hasNextPage || users.isFetchingNextPage}
       >
         Load More...
-      </Button>
+      </button>
     </>
   );
 };

@@ -20,14 +20,18 @@ const LocalQuery = () => {
         <Table>
           <Table.Head>
             <Table.Row>
-              <Table.Header onClick={() => onSort("id")}>Id</Table.Header>
+              <Table.Header className="w-1/12" onClick={() => onSort("id")}>
+                Id
+              </Table.Header>
               <Table.Header onClick={() => onSort("firstName")}>
                 First Name
               </Table.Header>
               <Table.Header onClick={() => onSort("lastName")}>
                 Last Name
               </Table.Header>
-              <Table.Header onClick={() => onSort("email")}>Email</Table.Header>
+              <Table.Header className="w-3/12" onClick={() => onSort("email")}>
+                Email
+              </Table.Header>
               <Table.Header onClick={() => onSort("department")}>
                 Department
               </Table.Header>

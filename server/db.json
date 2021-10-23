@@ -2,8 +2,8 @@
   "users": [
     {
       "id": 2,
-      "first_name": "Fonziezz",
-      "last_name": "Coggen",
+      "first_name": "Fonziezzzz",
+      "last_name": "Coggens",
       "email": "fcoggen1@weather.com",
       "gender": "Male",
       "test": null
@@ -13,7 +13,7 @@
       "first_name": "Shellsss",
       "last_name": "Koss",
       "email": "skos2@prweb.com",
-      "gender": "other",
+      "gender": "Other",
       "test": null
     },
     {
@@ -21,7 +21,7 @@
       "first_name": "Matthiew",
       "last_name": "Rasell",
       "email": "mrasell3@oaic.gov.au",
-      "gender": "other",
+      "gender": "Other",
       "test": null
     },
     {
@@ -66,7 +66,7 @@
       "first_name": "Ermina",
       "last_name": "Trickey",
       "email": "etrickeyd@sciencedirect.com",
-      "gender": "Male",
+      "gender": "Female",
       "test": null
     },
     {
@@ -90,7 +90,7 @@
       "first_name": "Carline",
       "last_name": "Stanners",
       "email": "cstannersj@newsvine.com",
-      "gender": "other",
+      "gender": "Other",
       "test": null
     },
     {
@@ -201,7 +201,7 @@
       "first_name": "Lewie",
       "last_name": "Slot",
       "email": "lslot10@t.co",
-      "gender": "Male"
+      "gender": "Female"
     },
     {
       "id": 38,
@@ -1623,20 +1623,6 @@
       "id": 266,
       "gender": "other",
       "test": null
-    },
-    {
-      "first_name": "Nick",
-      "last_name": "Zaremba",
-      "email": "nfzaremba@gmail.com",
-      "gender": "Female",
-      "id": 267
-    },
-    {
-      "first_name": "Nick",
-      "last_name": "Zaremba",
-      "email": "nfzaremba@gmail.com",
-      "gender": "other",
-      "id": 268
     }
   ]
 }

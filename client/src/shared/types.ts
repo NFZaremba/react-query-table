@@ -14,6 +14,7 @@ export interface IQuery {
 
 export interface IComponentBase {
   children: React.ReactNode;
+  className?: string;
 }
 
 export interface IUser {

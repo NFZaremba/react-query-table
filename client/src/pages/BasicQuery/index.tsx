@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { Table } from "../../shared/components";
-import { Button, Heading } from "@chakra-ui/react";
 import { useState } from "react";
 import { useAxios } from "../../shared/contexts/AxiosProvider";
 import { IData } from "../../shared/types";
@@ -33,30 +32,28 @@ const BasicQuery = () => {
   const users = useFetchUsers(selected);
 
   return (
-    <>
-      <Heading mb={4}>Basic Query Example</Heading>
+    <div className="w-full">
+      <h1 className="bold text-4xl mb-8">Basic Query Example</h1>
       <Link
         to={{
           pathname: "/user/create",
           state: { background: { ...location, path: "create-user" } },
         }}
       >
-        <Button colorScheme="teal" mb={4}>
-          Create User
-        </Button>
+        <button className="btn mb-8">Create User</button>
       </Link>
 
-      <Table
-      // size="md"
-      >
+      <Table>
         <Table.Head>
           <Table.Row>
-            <Table.Header>Id</Table.Header>
+            <Table.Header className="w-1/12">Id</Table.Header>
             <Table.Header>First Name</Table.Header>
             <Table.Header>Last Name</Table.Header>
-            <Table.Header>Email</Table.Header>
+            <Table.Header className="w-3/12">Email</Table.Header>
             <Table.Header>Gender</Table.Header>
-            <Table.Header>Action</Table.Header>
+            <Table.Header>
+              <span className="sr-only">Action</span>
+            </Table.Header>
           </Table.Row>
         </Table.Head>
         <Table.Body>
@@ -67,7 +64,7 @@ const BasicQuery = () => {
               <Table.Cell>{user.last_name}</Table.Cell>
               <Table.Cell>{user.email}</Table.Cell>
               <Table.Cell>{user.gender}</Table.Cell>
-              <Table.Actions>
+              <Table.Cell>
                 <Table.ActionEdit
                   to={{
                     pathname: `/user/edit/${user.id}`,
@@ -80,7 +77,7 @@ const BasicQuery = () => {
                     state: { background: { ...location, path: "delete-user" } },
                   }}
                 />
-              </Table.Actions>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
@@ -95,7 +92,7 @@ const BasicQuery = () => {
           <option value={"All"}>All</option>
         </select>
       </label>
-    </>
+    </div>
   );
 };
 

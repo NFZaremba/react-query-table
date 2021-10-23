@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import { Table } from "../../shared/components";
-import { Button, Heading } from "@chakra-ui/react";
 import toast from "react-hot-toast";
 import useTable from "../../shared/hooks/useTable";
 import { isFirstPage, isLastPage } from "../../shared/components/Table/helpers";
@@ -67,7 +66,7 @@ const PaginatedQuery = () => {
 
   return (
     <>
-      <Heading mb={4}>Paginated Query Example</Heading>
+      <h1 className="bold text-4xl mb-8">Paginated Query Example</h1>
       <div>
         <Link
           to={{
@@ -75,26 +74,27 @@ const PaginatedQuery = () => {
             state: { background: { ...location, path: "create-user" } },
           }}
         >
-          <Button colorScheme="teal" mb={4}>
-            Create User
-          </Button>
+          <button className="btn mb-8">Create User</button>
         </Link>
         <Table.Search
-          mb={6}
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />
         <Table>
           <Table.Head>
             <Table.Row>
-              <Table.Header onClick={() => onSort("id")}>Id</Table.Header>
+              <Table.Header className="w-1/12" onClick={() => onSort("id")}>
+                Id
+              </Table.Header>
               <Table.Header onClick={() => onSort("first_name")}>
                 First Name
               </Table.Header>
               <Table.Header onClick={() => onSort("last_name")}>
                 Last Name
               </Table.Header>
-              <Table.Header onClick={() => onSort("email")}>Email</Table.Header>
+              <Table.Header className="w-3/12" onClick={() => onSort("email")}>
+                Email
+              </Table.Header>
               <Table.Header onClick={() => onSort("gender")}>
                 Gender
               </Table.Header>
@@ -109,7 +109,7 @@ const PaginatedQuery = () => {
                 <Table.Cell>{user.last_name}</Table.Cell>
                 <Table.Cell>{user.email}</Table.Cell>
                 <Table.Cell>{user.gender}</Table.Cell>
-                <Table.Actions>
+                <Table.Cell>
                   <Table.ActionEdit
                     to={{
                       pathname: `/user/edit/${user.id}`,
@@ -124,7 +124,7 @@ const PaginatedQuery = () => {
                       },
                     }}
                   />
-                </Table.Actions>
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
