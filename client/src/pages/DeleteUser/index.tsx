@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
-
-import { useDisclosure } from "@chakra-ui/react";
 import { Modal } from "../../shared/components";
 import { useAxios } from "../../shared/contexts/AxiosProvider";
 import { useRouter } from "../../shared/hooks/useRouter";
+import { useDisclosure } from "../../shared/hooks/useDisclosure";
 
 type DeleteUserType = {
   onSuccess: () => void;

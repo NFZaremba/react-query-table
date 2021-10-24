@@ -179,7 +179,9 @@ const SelectLimit = ({ value, onChange, label, id, options }: ISelectLimit) => {
         className="block ml-4 w-1/4 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
       >
         {options.map((option) => (
-          <option value={option.value}>{option.label}</option>
+          <option key={option.label} value={option.value}>
+            {option.label}
+          </option>
         ))}
       </select>
     </div>

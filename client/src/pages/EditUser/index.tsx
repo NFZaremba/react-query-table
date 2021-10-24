@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-
-import { useDisclosure } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-
 import { Modal, Form } from "../../shared/components";
 import toast from "react-hot-toast";
 import { IUser, QueryOptions } from "../../shared/types";
@@ -12,6 +9,7 @@ import { useRouter } from "../../shared/hooks/useRouter";
 import { noop } from "../../shared/utils/noop";
 import { schema } from "../../shared/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useDisclosure } from "../../shared/hooks/useDisclosure";
 
 const useFetchById = ({
   id,

@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@axe-core/react": "^4.3.1",
-    "@chakra-ui/react": "^1.6.10",
     "@craco/craco": "^6.3.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",

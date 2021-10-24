@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 
 import { Table } from "../../shared/components";
-import { Button } from "@chakra-ui/react";
 import { useAxios } from "../../shared/contexts/AxiosProvider";
 import { createUrl } from "../../shared/utils/createUrl";
 import { IData } from "../../shared/types";

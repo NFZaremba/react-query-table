@@ -2,12 +2,13 @@ import { useMutation, useQueryClient } from "react-query";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDisclosure } from "@chakra-ui/react";
+
 import { Modal, Form } from "../../shared/components";
 import { IUser } from "../../shared/types";
 import { useAxios } from "../../shared/contexts/AxiosProvider";
 import { useRouter } from "../../shared/hooks/useRouter";
 import { schema } from "../../shared/validation";
+import { useDisclosure } from "../../shared/hooks/useDisclosure";
 
 type CreateUserType = {
   onSuccess: () => void;
