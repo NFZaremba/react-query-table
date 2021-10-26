@@ -72,15 +72,15 @@ const CreateUser = () => {
             name="gender"
             options={[
               {
-                value: "male",
+                value: "Male",
                 label: "Male",
               },
               {
-                value: "female",
+                value: "Female",
                 label: "Female",
               },
               {
-                value: "other",
+                value: "Other",
                 label: "Other",
               },
             ]}

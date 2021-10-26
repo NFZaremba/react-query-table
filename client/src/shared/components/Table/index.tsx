@@ -41,12 +41,14 @@ export type ISelectLimit = {
 
 const Table = ({ children, className = "", ...restProps }: ITable) => {
   return (
-    <table
-      className={`min-w-full divide-y divide-gray-200 shadow-xl${className}`}
-      {...restProps}
-    >
-      {children}
-    </table>
+    <div className="overflow-y-scroll h-[calc(100vh-20rem)] rounded-l-lg">
+      <table
+        className={`min-w-full divide-y divide-gray-200 shadow-xl${className}`}
+        {...restProps}
+      >
+        {children}
+      </table>
+    </div>
   );
 };
 
@@ -60,7 +62,10 @@ const Head = ({ children, className = "", ...restProps }: ITableHead) => {
 
 const Row = ({ children, className = "", ...restProps }: ITableRow) => {
   return (
-    <tr className={`even:bg-gray-50 ${className}`} {...restProps}>
+    <tr
+      className={`even:bg-gray-50 odd:bg-gray-100 ${className}`}
+      {...restProps}
+    >
       {children}
     </tr>
   );
@@ -135,17 +140,17 @@ const PaginateControls = ({
   ...restProps
 }: ITablePaginate) => {
   return (
-    <div className="flex justify-between items-center mt-8" {...restProps}>
+    <div className="flex justify-between items-center my-8" {...restProps}>
       <button
-        className="btn"
+        className="btn shadow-lg"
         onClick={prevPage}
         disabled={isFirstPage || isLoading}
       >
         Prev
       </button>
-      <span>Page: {currentPage}</span>
+      <span className="text-white">Page: {currentPage}</span>
       <button
-        className="btn"
+        className="btn shadow-lg"
         onClick={nextPage}
         disabled={isLastPage || isLoading}
       >
@@ -159,7 +164,7 @@ const Search = ({ value = "", onChange }: ITableSearch) => {
   return (
     <input
       className={
-        "block w-full rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 mb-4"
+        "block w-full rounded-md shadow-lg focus:ring-green-500 focus:border-green-500 mb-4"
       }
       type="text"
       placeholder="Search"
@@ -172,7 +177,9 @@ const Search = ({ value = "", onChange }: ITableSearch) => {
 const SelectLimit = ({ value, onChange, label, id, options }: ISelectLimit) => {
   return (
     <div className="flex items-center mt-8">
-      <label htmlFor={id}>{label}</label>
+      <label className="text-white" htmlFor={id}>
+        {label}
+      </label>
       <select
         value={value}
         onChange={onChange}

@@ -3,10 +3,10 @@ import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import toast, { Toaster } from "react-hot-toast";
 
-import { Navbar } from "./shared/components";
 import Routes from "./routes";
 import AxiosProvider from "./shared/contexts/AxiosProvider";
 import "./App.css";
+import Sidebar from "./shared/components/Sidebar";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -29,12 +29,13 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <React.Fragment>
-      <header>
+      {/* <header>
         <Navbar />
-      </header>
-      <main>
+      </header> */}
+      <main className="bg-main-dark">
         <AxiosProvider>
           <QueryClientProvider client={queryClient}>
+            <Sidebar />
             <Routes />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>

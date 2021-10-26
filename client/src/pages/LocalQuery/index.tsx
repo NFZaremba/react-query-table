@@ -1,4 +1,4 @@
-import { Table } from "../../shared/components";
+import { Header, Table } from "../../shared/components";
 import useTable from "../../shared/hooks/useTable";
 
 import data from "../../data";
@@ -13,8 +13,8 @@ const LocalQuery = () => {
   } = useTable(data, { pageLimit: PAGE_LIMIT });
 
   return (
-    <div className="w-full">
-      <h1 className="bold text-4xl mb-8">Local Query</h1>
+    <div className="section">
+      <Header>Local Query</Header>
       <Table>
         <Table.Head>
           <Table.Row>

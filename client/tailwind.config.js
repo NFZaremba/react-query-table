@@ -6,7 +6,14 @@ module.exports = {
     fontFamily: {
       sans: ["Inter var", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        users: "repeat(auto-fit, minmax(15rem, 1fr))",
+      },
+      backgroundColor: {
+        "main-dark": "#36393f",
+      },
+    },
   },
   variants: {
     extend: {},

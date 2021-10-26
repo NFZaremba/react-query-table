@@ -1,5 +1,7 @@
+import { motion } from "framer-motion";
 import { createContext, useContext, useEffect, useMemo } from "react";
 import { Spinner } from "..";
+import { modalMotion } from "../../animation";
 import { IComponentBase } from "../../types";
 
 export type IModal = {
@@ -70,9 +72,14 @@ export const Modal = ({ children, isOpen, onClose }: IModal) => {
                 className="inline-block h-screen align-middle"
                 aria-hidden="true"
               />
-              <div className="relative inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle bg-white shadow-xl rounded-2xl z-50">
+              <motion.div
+                variants={modalMotion}
+                initial="hidden"
+                animate="show"
+                className="relative inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle bg-white shadow-xl rounded-2xl z-50"
+              >
                 {children}
-              </div>
+              </motion.div>
             </div>
           </div>
         </ModalContext.Provider>
