@@ -49,7 +49,11 @@ const PaginatedQuery = () => {
   const {
     search: { searchTerm, setSearchTerm, debouncedSearchTerm },
     paginate: { next, prev, reset, currentPage },
-    sort: { sortBy, orderBy, onSort },
+    sort: {
+      sortBy,
+      orderBy,
+      //onSort
+    },
   } = useTable();
   const users = useFetchPaginatedUsers({
     searchTerm: debouncedSearchTerm,
@@ -68,7 +72,7 @@ const PaginatedQuery = () => {
   return (
     <div className="section">
       <Header>Paginated Query</Header>
-      <div className="flex justify-between align-items mb-8">
+      <div className="flex justify-between align-items mb-8 flex-col lg:flex-row">
         <Link
           to={{
             pathname: "/user/create",
@@ -79,7 +83,7 @@ const PaginatedQuery = () => {
         </Link>
         <Table.SelectLimit
           label="Select limit:"
-          id="Select Limit"
+          id="limit"
           value={limit}
           onChange={(e) => setLimit(Number(e.target.value))}
           options={[

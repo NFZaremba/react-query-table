@@ -88,7 +88,7 @@ const EditUser = () => {
     if (user.data) {
       methods.reset(user.data);
     }
-  }, [user.data, methods.reset]);
+  }, [user.data, methods]);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

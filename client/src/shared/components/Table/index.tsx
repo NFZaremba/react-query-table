@@ -31,10 +31,10 @@ export type ITableSearch = {
 export type ISelectLimit = {
   label: string;
   id: string;
-  value: number;
+  value: number | string;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   options: {
-    value: number;
+    value: number | string;
     label: string;
   }[];
 };
