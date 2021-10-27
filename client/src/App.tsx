@@ -1,6 +1,5 @@
 import React from "react";
 import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
 import toast, { Toaster } from "react-hot-toast";
 
 import Routes from "./routes";
@@ -29,15 +28,12 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <React.Fragment>
-      {/* <header>
-        <Navbar />
-      </header> */}
       <main className="bg-main-dark">
         <AxiosProvider>
           <QueryClientProvider client={queryClient}>
             <Sidebar />
             <Routes />
-            <ReactQueryDevtools initialIsOpen={false} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           </QueryClientProvider>
         </AxiosProvider>
       </main>

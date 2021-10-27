@@ -33,9 +33,6 @@ const LocalQuery = () => {
             <Table.Header onClick={() => onSort("department")}>
               Department
             </Table.Header>
-            <Table.Header onClick={() => onSort("jobTitle")}>
-              Job Title
-            </Table.Header>
           </Table.Row>
         </Table.Head>
         <Table.Body>
@@ -46,7 +43,6 @@ const LocalQuery = () => {
               <Table.Cell>{user.lastName}</Table.Cell>
               <Table.Cell>{user.email}</Table.Cell>
               <Table.Cell>{user.department}</Table.Cell>
-              <Table.Cell>{user.jobTitle}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

@@ -31,17 +31,17 @@ export type ITableSearch = {
 export type ISelectLimit = {
   label: string;
   id: string;
-  value: string;
+  value: number;
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   options: {
-    value: string;
+    value: number;
     label: string;
   }[];
 };
 
 const Table = ({ children, className = "", ...restProps }: ITable) => {
   return (
-    <div className="overflow-y-scroll h-[calc(100vh-20rem)] rounded-l-lg">
+    <div className="overflow-y-scroll max-h-[calc(100vh-20rem)] rounded-l-lg">
       <table
         className={`min-w-full divide-y divide-gray-200 shadow-xl${className}`}
         {...restProps}
@@ -120,13 +120,11 @@ const Edit = ({ to, ...restProps }: ITableEdit) => {
 
 const Delete = ({ to, ...restProps }: ITableDelete) => {
   return (
-    <>
-      <Link to={to}>
-        <button className="btn-ghost" {...restProps}>
-          <DeleteIcon />
-        </button>
-      </Link>
-    </>
+    <Link to={to}>
+      <button className="btn-ghost" {...restProps}>
+        <DeleteIcon />
+      </button>
+    </Link>
   );
 };
 
@@ -176,14 +174,14 @@ const Search = ({ value = "", onChange }: ITableSearch) => {
 
 const SelectLimit = ({ value, onChange, label, id, options }: ISelectLimit) => {
   return (
-    <div className="flex items-center mt-8">
+    <div className="flex justify-end items-center w-56">
       <label className="text-white" htmlFor={id}>
         {label}
       </label>
       <select
         value={value}
         onChange={onChange}
-        className="block ml-4 w-1/4 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
+        className="block ml-4 w-2/4 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
       >
         {options.map((option) => (
           <option key={option.label} value={option.value}>

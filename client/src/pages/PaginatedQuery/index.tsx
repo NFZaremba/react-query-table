@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 
@@ -13,8 +13,6 @@ import { useRouter } from "../../shared/hooks/useRouter";
 import { useIsLarge } from "../../shared/hooks/useMediaQuery";
 import UsersTable from "../../domain/users/UsersTable";
 import UserGrid from "../../domain/users/UsersGrid";
-
-const PAGE_LIMIT = 10;
 
 const useFetchPaginatedUsers = ({
   searchTerm,
@@ -47,6 +45,7 @@ const useFetchPaginatedUsers = ({
 
 const PaginatedQuery = () => {
   const { location } = useRouter();
+  const [limit, setLimit] = useState<number>(15);
   const {
     search: { searchTerm, setSearchTerm, debouncedSearchTerm },
     paginate: { next, prev, reset, currentPage },
@@ -55,7 +54,7 @@ const PaginatedQuery = () => {
   const users = useFetchPaginatedUsers({
     searchTerm: debouncedSearchTerm,
     page: currentPage,
-    pageLimit: PAGE_LIMIT,
+    pageLimit: Number(limit),
     sort: sortBy,
     order: orderBy,
   });
@@ -64,19 +63,41 @@ const PaginatedQuery = () => {
   useEffect(() => {
     // reset page to 1 when searching
     reset();
-  }, [debouncedSearchTerm, reset]);
+  }, [debouncedSearchTerm, reset, limit]);
 
   return (
     <div className="section">
       <Header>Paginated Query</Header>
-      <Link
-        to={{
-          pathname: "/user/create",
-          state: { background: { ...location, path: "create-user" } },
-        }}
-      >
-        <button className="btn mb-8">Create User</button>
-      </Link>
+      <div className="flex justify-between align-items mb-8">
+        <Link
+          to={{
+            pathname: "/user/create",
+            state: { background: { ...location, path: "create-user" } },
+          }}
+        >
+          <button className="btn">Create User</button>
+        </Link>
+        <Table.SelectLimit
+          label="Select limit:"
+          id="Select Limit"
+          value={limit}
+          onChange={(e) => setLimit(Number(e.target.value))}
+          options={[
+            {
+              value: 15,
+              label: "15",
+            },
+            {
+              value: 50,
+              label: "50",
+            },
+            {
+              value: 100,
+              label: "100",
+            },
+          ]}
+        />
+      </div>
       <Table.Search
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
@@ -144,7 +165,7 @@ const PaginatedQuery = () => {
         nextPage={next}
         currentPage={currentPage}
         isFirstPage={isFirstPage(currentPage)}
-        isLastPage={isLastPage(users?.data?.length, PAGE_LIMIT)}
+        isLastPage={isLastPage(users?.data?.length, Number(limit))}
         isLoading={users?.isLoading || users?.isFetching}
       />
     </div>
